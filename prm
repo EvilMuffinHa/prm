@@ -1,0 +1,77 @@
+#!/bin/bash
+
+#Yaes
+
+usage="prm [option] [args]"
+
+if [ "$#" -lt 1 ]; then
+	printf "%s\n" "Incorrect Usage."
+	printf "%s\n" "$usage"
+	printf "%s\n" "Type 'prm h' to learn more"
+else
+	if [ "$1" = "h" ]; then
+		#Nothing specified with help
+		if [ "$#" -eq 1 ]; then
+			printf "%s\n" "prm is a script to wrap together installation, compiling, and execution of different programs." "This is the Help Menu." "Usage: prm h [--c] [--h] [--i] [--r] [--s] [--t]"
+		fi
+		#Argument with h command
+		if [ "$#" -ge 2 ]; then
+			for arg in "$@"; do
+				case $arg in
+					prm)
+						shift;;
+					h)
+						shift;;
+					--h) 
+						printf "%s\n" "'prm h' will display the help menu."
+						shift;;
+					--i) 
+						printf "%s\n" "'prm i' installs different languages."
+						shift;;
+					--c)
+						printf "%s\n" "'prm c' compiles files."
+						shift;;
+					--r)
+						printf "%s\n" "'prm r' runs programs."
+						shift;;
+					--s)
+						printf "%s\n" "'prm s' views all saved compilers, interpreters, and packages."
+						shift;;
+					*) 
+						printf "%s\n" "That argument does not exist."
+						shift;;
+				esac
+			done
+		fi
+	elif [ "$1" = "c" ]; then
+		#Compiling
+		if [ "$#" -ge 3 ]; then
+			#COMPILING FOR LANGUAGES
+			if [ "$2" == 'C' -o "$2" == 'c' ]; then
+				#C lang
+				echo "clang"
+			fi
+		else
+			printf "%s\n" "Usage: prm c [lang] [^name] [source] [^name] [source ...]"
+			exit
+		fi
+	elif [ "$1" = "r" ]; then
+		#Running
+		if [ "$#" -ge 3 ]; then
+			#RUNNING FOR LANGUAGES
+			if [ "$#" -gt 3 ]; then
+				if [ "$2" == 'p' -o "$2" == 'P' ]; then
+					if [ -e $4 ]; then
+						python"$3" "$4" || printf "%s\n" "You do not have Python$3 installed. Install it with 'prm i python$3."
+					else
+						printf "%s\n" "File does not exist."
+					fi
+				fi
+			else
+				printf "%s\n" "THIS IS THE PLACE WHERE THE LANGUAGES WITHOUT VERSIONS GO"
+			fi
+		else
+			printf "%s\n" "Usage: prm r [lang] [version] [filename] [filename ...]"
+		fi
+	fi
+fi
