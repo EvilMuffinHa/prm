@@ -49,7 +49,15 @@ else
 			#COMPILING FOR LANGUAGES
 			if [ "$2" == 'C' -o "$2" == 'c' ]; then
 				#C lang
-				echo "clang"
+				if [ $((($#) % 2)) -eq 0 ]; then
+					for args in $(seq 3 2 $#); do
+						aone=$(($args+1))
+						text="gcc -o "${!args}" "${!aone}
+						$text
+					done
+				else
+					printf "%s\n" "A name and source file is necessary for each compile. "
+				fi
 			fi
 		else
 			printf "%s\n" "Usage: prm c [lang] [^name] [source] [^name] [source ...]"
@@ -60,18 +68,26 @@ else
 		if [ "$#" -ge 3 ]; then
 			#RUNNING FOR LANGUAGES
 			if [ "$#" -gt 3 ]; then
-				if [ "$2" == 'p' -o "$2" == 'P' ]; then
-					if [ -e $4 ]; then
-						python"$3" "$4" || printf "%s\n" "You do not have Python$3 installed. Install it with 'prm i python$3."
-					else
-						printf "%s\n" "File does not exist."
-					fi
+				if [ "$2" == 'python' ]; then
+					text="python$3 $4"
+					for args in $(seq 4 $#); do
+						text=$text" "$args
+					done
+					$text
 				fi
 			else
-				printf "%s\n" "THIS IS THE PLACE WHERE THE LANGUAGES WITHOUT VERSIONS GO"
+				if [ "$2" == 'x' ]; then
+					if [ -e $3 ]; then
+						text="./"$3
+						for args in $(seq 3 $#); do
+							text=$text" "$args
+						done
+						$text
+					fi
+				fi
 			fi
 		else
-			printf "%s\n" "Usage: prm r [lang] [version] [filename] [filename ...]"
+			printf "%s\n" "Usage: prm r [lang] [(based on lang) version] [filename] [args]"
 		fi
 	fi
 fi
