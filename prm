@@ -80,12 +80,6 @@ else
 						text=$text" "$args
 					done
 					$text
-				elif [ "$2" == 'ruby' ]; then
-					text="ruby $3"
-					for args in $(seq 3 $#); do
-						text=$text" "$args
-					done
-					$text
 				fi
 			else
 				if [ "$2" == 'x' ]; then
@@ -95,6 +89,18 @@ else
 							text=$text" "$args
 						done
 						$text
+					else
+						printf "%s\n" "That file does not exist. "
+					fi
+				elif [ "$2" == 'ruby' ]; then
+					if [ -e $3 ]; then
+						text="ruby "$3
+						for args in $(seq 3 $#); do
+							text=$text" "$args
+						done
+						$text
+					else
+						printf "%s\n" "That file does not exist. "
 					fi
 				fi
 			fi
