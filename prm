@@ -12,7 +12,7 @@ else
 	if [ "$1" = "h" ]; then
 		#Nothing specified with help
 		if [ "$#" -eq 1 ]; then
-			printf "%s\n" "prm is a script to wrap together installation, compiling, and execution of different programs." "This is the Help Menu." "Usage: prm h [--c] [--h] [--i] [--r] [--s] [--t]"
+			printf "%s\n" "prm is a script to wrap together installation, compiling, and execution of different programs." "This is the Help Menu." "Usage: prm h [--c] [--h] [--i] [--r] [--s] [--t] [--init]"
 		fi
 		#Argument with h command
 		if [ "$#" -ge 2 ]; then
@@ -29,13 +29,19 @@ else
 						printf "%s\n" "'prm i' installs different languages."
 						shift;;
 					--c)
-						printf "%s\n" "'prm c' compiles files."
+						printf "%s\n" "'prm c' compiles files." "Usage: prm c [lang] [name] [source] [name] [source] [name] [source] ... "
 						shift;;
 					--r)
-						printf "%s\n" "'prm r' runs programs."
+						printf "%s\n" "'prm r' runs programs." "Usage: prm r [lang] [(based on lang) version] [filename]"
 						shift;;
 					--s)
 						printf "%s\n" "'prm s' views all saved compilers, interpreters, and packages."
+						shift;;
+					--t)
+						printf "%s\n" "'prm t' transpiles from one language to another language."
+						shift;;
+					--init)
+						printf "%s\n" "Initializes language management of prm by moving all external languages into a special folder and exporting that path."
 						shift;;
 					*) 
 						printf "%s\n" "That argument does not exist."
@@ -71,6 +77,12 @@ else
 				if [ "$2" == 'python' ]; then
 					text="python$3 $4"
 					for args in $(seq 4 $#); do
+						text=$text" "$args
+					done
+					$text
+				elif [ "$2" == 'ruby' ]; then
+					text="ruby $3"
+					for args in $(seq 3 $#); do
 						text=$text" "$args
 					done
 					$text
