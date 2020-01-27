@@ -49,6 +49,9 @@ else
 				esac
 			done
 		fi
+	elif [ "$1" = "init" ]; then
+		#Initialize the script
+		x=5
 	elif [ "$1" = "c" ]; then
 		#Compiling
 		if [ "$#" -ge 3 ]; then
