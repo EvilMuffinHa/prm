@@ -40,6 +40,9 @@ else
 					--t)
 						printf "%s\n" "'prm t' transpiles from one language to another language."
 						shift;;
+					--l)
+						printf "%s\n" "'prm l' lists all possible languages for running and compiling."
+						shift;;
 					--init)
 						printf "%s\n" "Initializes language management of prm by moving all external languages into a special folder and exporting that path."
 						shift;;
