@@ -156,6 +156,16 @@ else
 					else
 						printf "%s\n" "That file does not exist. "
 					fi
+				elif [ "$2" == 'perl' ]; then
+					if [ -e $3 ]; then
+						#Might want to add the -w flag, it will give warnings if syntax is wonky
+						text="perl "$3
+						for args in $(seq 3 $#); do
+							text=$text" "$args
+						done
+						$text
+					else
+						printf "%s\n" "That file does not exist. "
 				fi
 			fi
 		else
