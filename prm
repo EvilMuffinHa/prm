@@ -67,6 +67,16 @@ else
 				else
 					printf "%s\n" "A name and source file is necessary for each compile. "
 				fi
+			elif [ "$2" == 'C++' -o "$2" == 'c++' ]; then
+				if [ $((($#) % 2)) -eq 0 ]; then
+					for args in $(seq 3 2 $#); do
+						aone=$(($args+1))
+						text="g++ -o "${!args}" "${!aone}
+						$text
+					done
+				else
+					printf "%s\n" "A name and source file is necessary for each compile. "
+				fi
 			fi
 		else
 			printf "%s\n" "Usage: prm c [lang] [name] [source] [name] [source ...]"
@@ -98,6 +108,26 @@ else
 				elif [ "$2" == 'ruby' ]; then
 					if [ -e $3 ]; then
 						text="ruby "$3
+						for args in $(seq 3 $#); do
+							text=$text" "$args
+						done
+						$text
+					else
+						printf "%s\n" "That file does not exist. "
+					fi
+				elif [ "$2" == 'javascript' ]; then
+					if [ -e $3 ]; then
+						text="node "$3
+						for args in $(seq 3 $#); do
+							text=$text" "$args
+						done
+						$text
+					else
+						printf "%s\n" "That file does not exist. "
+					fi
+				elif [ "$2" == 'lisp' ]; then
+					if [ -e $3 ]; then
+						text="sbcl --option "$3
 						for args in $(seq 3 $#); do
 							text=$text" "$args
 						done
