@@ -52,6 +52,14 @@ else
 	elif [ "$1" = "init" ]; then
 		#Initialize the script
 		x=5
+	elif [ "$1" = "i" ]; then
+		#Install
+		if [ "$#" -eq 2 ]; then
+			if [ "$2" == "haskell" -o "$2" == "Haskell" ]; then
+				#Haskell
+				curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+			fi
+		fi
 	elif [ "$1" = "c" ]; then
 		#Compiling
 		if [ "$#" -ge 3 ]; then
@@ -72,6 +80,16 @@ else
 					for args in $(seq 3 2 $#); do
 						aone=$(($args+1))
 						text="g++ -o "${!args}" "${!aone}
+						$text
+					done
+				else
+					printf "%s\n" "A name and source file is necessary for each compile. "
+				fi
+			elif [ "$2" == 'Haskell' -o "$2" == 'haskell' ]; then
+				if [ $((($#) % 2)) -eq 0 ]; then
+					for args in $(seq 3 2 $#); do
+						aone=$(($args+1))
+						text="ghc -o "${!args}" "${!aone}
 						$text
 					done
 				else
