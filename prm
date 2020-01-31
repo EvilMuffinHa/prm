@@ -132,6 +132,7 @@ else
 					done
 				else
 					printf "%s\n" "A name and source file is necessary for each compile. "
+				fi
 			fi
 		else
 			printf "%s\n" "Usage: prm c [lang] [name] [source] [name] [source ...]"
@@ -190,14 +191,9 @@ else
 					else
 						printf "%s\n" "That file does not exist. "
 					fi
-<<<<<<< HEAD
-				elif [ "$2" == "perl" ]; then
-					if [ -e $3 ]; then
-=======
 				elif [ "$2" == 'perl' ]; then
 					if [ -e $3 ]; then
 						#Might want to add the -w flag, it will give warnings if syntax is wonky
->>>>>>> 11eba0e596c1ee2cac57250adb24f5e01070d064
 						text="perl "$3
 						for args in $(seq 3 $#); do
 							text=$text" "$args
@@ -205,9 +201,8 @@ else
 						$text
 					else
 						printf "%s\n" "That file does not exist. "
-<<<<<<< HEAD
 					fi
-				elif [ "$2" == "applescript" -o "$2" == "Applescript" -o "$2" == "appleScript" -o "$2" == "AppleScript" ]; then
+				elif [ "$2" == 'applescript' -o "$2" == 'Applescript' -o "$2" == 'appleScript' -o "$2" == 'AppleScript' ]; then
 					if [ -e $3 ]; then
 						text="osascript "$3
 						for args in $(seq 3 $#); do
@@ -217,8 +212,9 @@ else
 					else
 						printf "%s\n" "That file does not exist. "
 					fi
-=======
->>>>>>> 11eba0e596c1ee2cac57250adb24f5e01070d064
+				elif [ "$2" == 'App' -o "$2" == 'app' ]; then
+					#Does not work yet. It was meant to run OSX applications, but it seems to open without actually running.
+					open -a $3
 				fi
 			fi
 		else
