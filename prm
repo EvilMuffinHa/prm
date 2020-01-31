@@ -26,7 +26,7 @@ else
 						printf "%s\n" "'prm h' will display the help menu."
 						shift;;
 					--i) 
-						printf "%s\n" "'prm i' installs different languages."
+						printf "%s\n" "'prm i' installs different languages." "Usage: prm i [lang]"
 						shift;;
 					--c)
 						printf "%s\n" "'prm c' compiles files." "Usage: prm c [lang] [name] [source] [name] [source] [name] [source] ... "
@@ -122,6 +122,16 @@ else
 				else
 					printf "%s\n" "A name and source file is necessary for each compile. "
 				fi
+			elif [ "$2" == "Applescript" -o "$2" == "applescript" -o "$2" == "AppleScript" -o "$2" == "appleScript" ]; then
+				#Compiling an applescript into an app
+				if [ $((($#) % 2)) -eq 0 ]; then
+					for args in $(seq 3 2 $#); do
+						aone=$(($args+1))
+						text="osacompile -o "${!args}" "${!aone}
+						$text
+					done
+				else
+					printf "%s\n" "A name and source file is necessary for each compile. "
 			fi
 		else
 			printf "%s\n" "Usage: prm c [lang] [name] [source] [name] [source ...]"
