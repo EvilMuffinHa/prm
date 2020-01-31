@@ -12,7 +12,7 @@ else
 	if [ "$1" = "h" ]; then
 		#Nothing specified with help
 		if [ "$#" -eq 1 ]; then
-			printf "%s\n" "prm is a script to wrap together installation, compiling, and execution of different programs." "This is the Help Menu." "Usage: prm h [--c] [--h] [--i] [--r] [--s] [--t] [--init]"
+			printf "%s\n" "prm is a script to wrap together installation, compiling, and execution of different programs." "This is the Help Menu." "Usage: prm h [--c] [--h] [--i] [--l] [--r] [--s] [--t] [--u] [--init]"
 		fi
 		#Argument with h command
 		if [ "$#" -ge 2 ]; then
@@ -43,6 +43,9 @@ else
 					--l)
 						printf "%s\n" "'prm l' lists all possible languages for running and compiling."
 						shift;;
+					--u)
+						printf "%s\n" "'prm u' uninstalls languages. "
+						shift;;
 					--init)
 						printf "%s\n" "Initializes language management of prm by moving all external languages into a special folder and exporting that path."
 						shift;;
@@ -62,6 +65,7 @@ else
 		reset	
 	elif [ "$1" = "i" ]; then
 		#Install
+		#Add: Ruby?, Python?, Applescript?
 		if [ "$#" -eq 2 ]; then
 			if [ "$2" == "haskell" -o "$2" == "Haskell" ]; then
 				#Haskell
@@ -85,6 +89,21 @@ else
 			elif [ "$2" == "javascript" -o "$2" == "Javascript" ]; then
 				#Javascript
 				brew install node || printf "%s\n" "Homebrew must be installed to install javascript. " "Perform 'prm init' to install Homebrew. "
+			elif [ "$2" == "Rust" -o "$2" == "rust" ]; then
+				#Rust
+				curl https://sh.rustup.rs -sSf | sh
+				. ~/.bashrc
+				. ~/.bash_profile
+				tset
+				reset
+			fi
+		fi
+	elif [ "$1" = "u" ]; then
+		#Uninstall
+		if [ "$#" -eq 2 ]; then
+			#Add: C, C++, Haskell, Applescript?, Python?, Ruby?, Javascript, Lisp, Perl
+			if [ "$2" == "Rust" -o "$2" == "rust" ]; then
+				rustup self uninstall
 			fi
 		fi
 	elif [ "$1" = "c" ]; then
@@ -129,6 +148,19 @@ else
 						aone=$(($args+1))
 						text="osacompile -o "${!args}" "${!aone}
 						$text
+					done
+				else
+					printf "%s\n" "A name and source file is necessary for each compile. "
+				fi
+			elif [ "$2" == "rust" -o "$2" == "Rust" ]; then
+				#Compiling a Rust file into an executable
+				if [ $((($#) % 2)) -eq 0 ]; then
+					for args in $(seq 3 2 $#); do
+						aone=$(($args+1))
+						touch $aone
+						rustc $args
+						cat `$args | cut -d "." -f 2` > $aone
+						rm `$args | cut -d "." -f 2`
 					done
 				else
 					printf "%s\n" "A name and source file is necessary for each compile. "
@@ -213,8 +245,11 @@ else
 						printf "%s\n" "That file does not exist. "
 					fi
 				elif [ "$2" == 'App' -o "$2" == 'app' ]; then
-					#Does not work yet. It was meant to run OSX applications, but it seems to open without actually running.
-					open -a $3
+					if [ -d $3 ]; then
+						open -a $3
+					else
+						printf "%s\n" "That app does not exist. "
+					fi
 				fi
 			fi
 		else
