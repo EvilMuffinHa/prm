@@ -180,8 +180,14 @@ else
 					else
 						printf "%s\n" "That file does not exist. "
 					fi
+<<<<<<< HEAD
 				elif [ "$2" == "perl" ]; then
 					if [ -e $3 ]; then
+=======
+				elif [ "$2" == 'perl' ]; then
+					if [ -e $3 ]; then
+						#Might want to add the -w flag, it will give warnings if syntax is wonky
+>>>>>>> 11eba0e596c1ee2cac57250adb24f5e01070d064
 						text="perl "$3
 						for args in $(seq 3 $#); do
 							text=$text" "$args
@@ -189,6 +195,7 @@ else
 						$text
 					else
 						printf "%s\n" "That file does not exist. "
+<<<<<<< HEAD
 					fi
 				elif [ "$2" == "applescript" -o "$2" == "Applescript" -o "$2" == "appleScript" -o "$2" == "AppleScript" ]; then
 					if [ -e $3 ]; then
@@ -200,6 +207,8 @@ else
 					else
 						printf "%s\n" "That file does not exist. "
 					fi
+=======
+>>>>>>> 11eba0e596c1ee2cac57250adb24f5e01070d064
 				fi
 			fi
 		else
